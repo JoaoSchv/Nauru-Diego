@@ -1,0 +1,328 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+@font-face {
+  font-family: 'Rimba Andalas';
+  src: url('/fonts/Rimba Andalas.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Maragsa';
+  src: url('/fonts/Maragsâ-Display.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100vh;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 25px;
+}
+
+a:hover {
+  color: orange;
+}
+
+/* VIDEO BACKGROUND */
+.video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.videoBg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+/* HEADER */
+header {
+  position: relative;
+  z-index: 2;
+  padding: 0 2rem;
+}
+
+.navbar {
+  width: 100%;
+  height: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transform: translateY(7px);
+}
+
+.navbar .logo a {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.logoImg {
+  transform: translateY(10px);
+  font-family: 'Rimba Andalas';
+  font-size: 40px;
+  background: linear-gradient(270deg, orange, orangered, white, rgb(90, 90, 90));
+  background-size: 600% 600%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient 5s ease infinite;
+}
+
+.navbar .links {
+  display: flex;
+  font-family: 'Maragsa';
+  gap: 3rem;
+}
+
+.links a {
+  transition: color 0.7s ease-in-out, transform 0.5s;
+}
+
+.links :hover {
+  animation: navBarLinksHover 0.4s forwards ease-in-out;
+}
+
+.links :not(:hover) {
+  animation: navBarLinksUnhover 0.4s forwards ease-in-out;
+}
+
+.navbar .toggleButton {
+  color: #ffffff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: none;
+}
+
+.actionButton {
+  background-color: orange;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.actionButton:hover {
+  scale: 1.5;
+  color: #ffffff;
+}
+
+.actionButton:active {
+  scale: 0.95;
+}
+
+
+/* DROPDOWN */
+
+.dropdownMenu {
+  position: absolute;
+  right: 2rem;
+  top: 60px;
+  display: none;
+  width: 300px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out;
+}
+
+.dropdownMenu.show {
+  display: block;
+  animation: fadeIn 0.5s forwards ease-in-out;
+}
+
+.dropdownMenu.hide {
+  animation: fadeOut 0.5s forwards ease-in-out;
+}
+
+.dropdownMenu li {
+  padding: 0.7rem;
+}
+
+/*HERO*/
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  z-index: 2;
+  overflow: hidden;
+}
+
+#hero h1 {
+  font-size: 3rem;
+  font-family: 'Maragsa';
+  margin-bottom: 1rem;
+}
+
+#hero p {
+  font-size: 1.2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+/* RESPONSIVIDADE BOLADONA */
+@media (max-width: 992px) {
+
+  .navbar .links,
+  .navbar .actionButton {
+    display: none;
+  }
+
+  .navbar .toggleButton,
+  .dropdownMenu {
+    display: block;
+  }
+}
+
+
+/*ANIMAÇÕES PICAAAAA*/
+
+@keyframes navBarLinksHover {
+  0% {
+    color: #ffffff;
+    transform: scale(1);
+  }
+
+  100% {
+    color: orange;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes navBarLinksUnhover {
+  0% {
+    color: orange;
+    transform: scale(1.5);
+  }
+
+  100% {
+    color: #ffffff;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+
+  to {
+    opacity: 1;
+    max-height: 500px;
+    /* Ajuste conforme necessário */
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    max-height: 500px;
+    /* Ajuste conforme necessário */
+  }
+
+  to {
+    opacity: 0;
+    max-height: 0;
+  }
+}
+
+@keyframes titleAnim {
+  0% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: translateY(15px);
+    transform: translateX(7px);
+  }
+
+  75% {
+    transform: translateY(-15px);
+    transform: translateX(-7px);
+  }
+
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+/**@keyframes glow {
+  0% {
+    text-shadow: 0 0 5px #ff005e, 0 0 10px #ff005e, 0 0 20px #ff005e, 0 0 40px #ff005e, 0 0 80px #ff005e;
+  }
+
+  100% {
+    text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 40px #00d4ff, 0 0 80px #00d4ff, 0 0 160px #00d4ff;
+  }
+}**/
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
