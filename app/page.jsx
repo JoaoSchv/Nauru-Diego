@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { IoMdMenu } from "react-icons/io";
 import Link from "next/link";
 import Image from "next/image";
@@ -9,6 +10,7 @@ import ScrollToTopButton from "./ScrollToTopButton";
 
 export default function Home() {
   const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState(0); 
   const personagens = [
     {
       nome: "Curupira",
@@ -63,10 +65,12 @@ export default function Home() {
   }
 
   const anterior = () => {
+    setDirection(-1);
     setIndex((prev) => (prev === 0 ? personagens.length - 1 : prev - 1));
   };
 
   const proximo = () => {
+    setDirection(1);
     setIndex((prev) => (prev === personagens.length - 1 ? 0 : prev + 1));
   };
 
@@ -103,6 +107,9 @@ export default function Home() {
     },
   ];
 
+  // Estados para hover dos cards
+  const [hoverCenario, setHoverCenario] = useState(null);
+
   return (
     <>
       <section className="hero-animado w-full min-h-[70vh] sm:min-h-[100vh] flex flex-col justify-start items-center relative overflow-hidden">
@@ -124,7 +131,7 @@ export default function Home() {
             left: 0,
             width: "100%",
             height: "100%",
-            background: "rgba(40,40,40,0.5)",
+            background: "rgba(0,0,0,0.2)",
             zIndex: 1,
           }}
         />
@@ -220,12 +227,32 @@ export default function Home() {
             <h2 className="titulo text-2xl sm:text-3xl md:text-5xl font-bold mb-4 sm:mb-6">
               Personagens
             </h2>
-            <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-4 sm:mb-6">
-              {personagem.descricao}
-            </p>
-            <h3 className="text-lg sm:text-xl md:text-2xl font-semibold">
-              {personagem.nome}
-            </h3>
+            <AnimatePresence initial={false} custom={direction} mode="wait">
+              <motion.div
+                key={personagem.nome}
+                custom={direction}
+                initial={{
+                  x: direction > 0 ? -100 : 100,
+                  opacity: 0,
+                }}
+                animate={{
+                  x: 0,
+                  opacity: 1,
+                }}
+                exit={{
+                  x: direction > 0 ? 100 : -100,
+                  opacity: 0,
+                }}
+                transition={{ duration: 0.4, type: "tween" }}
+              >
+                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold mb-4 sm:mb-6">
+                  {personagem.nome}
+                </h3>
+                <p className="text-sm sm:text-base md:text-lg leading-relaxed">
+                  {personagem.descricao}
+                </p>
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           <div className="w-full md:w-3/5 flex items-center justify-center relative">
@@ -236,14 +263,41 @@ export default function Home() {
               <ChevronLeft size={30} />
             </button>
 
-            <div className="w-[200px] h-[200px] sm:w-[280px] sm:h-[280px] md:w-[400px] md:h-[400px] rounded-full border-2 border-black flex items-center justify-center overflow-hidden">
-              <Image
-                src={personagem.imagem}
-                alt={personagem.nome}
-                width={400}
-                height={400}
-                className="object-contain"
-              />
+            {/* Container com position: relative para animação funcionar */}
+            <div className="w-[200px] h-[200px] sm:w-[280px] sm:h-[280px] md:w-[400px] md:h-[400px] rounded-full border-2 border-black flex items-center justify-center overflow-hidden relative bg-gray-300">
+              <AnimatePresence initial={false} custom={direction}>
+                <motion.div
+                  key={personagem.nome}
+                  custom={direction}
+                  initial={{
+                    x: direction > 0 ? 300 : -300,
+                    opacity: 0,
+                    scale: 0.8,
+                  }}
+                  animate={{
+                    x: 0,
+                    opacity: 1,
+                    scale: 1,
+                  }}
+                  exit={{
+                    x: direction > 0 ? -300 : 300,
+                    opacity: 0,
+                    scale: 0.8,
+                  }}
+                  transition={{ duration: 0.5, type: "spring" }}
+                  className="w-full h-full flex items-center justify-center absolute"
+                  style={{ top: 0, left: 0 }}
+                >
+                  <Image
+                    src={personagem.imagem}
+                    alt={personagem.nome}
+                    fill
+                    className="object-cover"
+                    style={{ borderRadius: "50%", backgroundColor: "#e5e7eb" }} // bg-gray-300
+                    priority
+                  />
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             <button
@@ -262,8 +316,12 @@ export default function Home() {
           Cenários
         </h2>
         <div className="flex flex-row md:flex-row items-center justify-center gap-6 sm:gap-8 md:gap-12 max-w-[1400px] w-full">
-          {/*UM*/}
-          <div className="!w-full md:w-2/5 !ml-2 flex flex-col justify-center items-center">
+          {/* UM */}
+          <div
+            className="!w-full md:w-2/5 !ml-2 flex flex-col justify-center items-center relative"
+            onMouseEnter={() => setHoverCenario(0)}
+            onMouseLeave={() => setHoverCenario(null)}
+          >
             <Image
               src="/floresta.png"
               width={1000}
@@ -277,10 +335,30 @@ export default function Home() {
             <p className="!mb-4 sm:text-base max-w-[800px]">
               Cenário da floresta, onde se passa o início do jogo
             </p>
+            <AnimatePresence>
+              {hoverCenario === 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 30 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-10 flex flex-col items-center justify-center text-white rounded-lg p-4 z-20"
+                >
+                  <h3 className="text-2xl font-bold mb-2">Mais sobre a Floresta</h3>
+                  <p className="text-base">
+                    A floresta é o lar de muitos personagens e o ponto de partida da aventura. Aqui, o jogador aprende as mecânicas básicas e conhece o folclore brasileiro.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
-          {/*DOIS*/}
-          <div className="!w-full md:w-2/5 !mr-2 flex flex-col justify-center items-center">
+          {/* DOIS */}
+          <div
+            className="!w-full md:w-2/5 !mr-2 flex flex-col justify-center items-center relative"
+            onMouseEnter={() => setHoverCenario(1)}
+            onMouseLeave={() => setHoverCenario(null)}
+          >
             <Image
               src="/Caverna.png"
               width={1000}
@@ -294,6 +372,22 @@ export default function Home() {
             <p className="!mb-4 sm:text-base max-w-[800px]">
               Cenário da caverna, onde se passa a maior parte do jogo
             </p>
+            <AnimatePresence>
+              {hoverCenario === 1 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 30 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 flex flex-col items-center justify-center text-white rounded-lg p-4 z-20"
+                >
+                  <h3 className="text-2xl font-bold mb-2">Mais sobre a Caverna</h3>
+                  <p className="text-base">
+                    A caverna é um ambiente desafiador, repleto de inimigos e segredos. O jogador precisa explorar e superar obstáculos para avançar na história.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </section>
