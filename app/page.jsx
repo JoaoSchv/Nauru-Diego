@@ -204,16 +204,56 @@ export default function Home() {
           }}
         >
           
-          <p className="!text-lg sm:text-base max-w-[800px]  leading-relaxed">
-            Naurú é um jogo Metroidvania que conta a história de um jovem
-            indígena que tem o dever de proteger a floresta de espíritos
-            malignos, como sacis, corpos-secos e outros que atormentam as vidas
-            dos habitantes das matas. Com uma jogabilidade rápida, mas simples
-            de se jogar, o jogo tem o propósito de ser desafiador, porém, ao
-            mesmo tempo, algo divertido e único. Tudo isso enquanto exploramos e
-            descobrimos mais sobre as lendas e a cultura do nosso folclore
-            brasileiro.
-          </p>
+          <div className="max-w-[900px] mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="bg-gradient-to-br from-green-900/20 via-emerald-900/15 to-green-800/10 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-green-700/30 shadow-2xl shadow-green-900/20"
+            >
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 mb-6 text-center">
+                Naurú
+              </h2>
+              
+              <div className="space-y-4 text-gray-100">
+                <p className="text-lg sm:text-xl leading-relaxed font-light">
+                  Naurú é um jogo 
+               Metroidvania que 
+                  mergulha nas profundezas do nosso rico folclore brasileiro.
+                </p>
+                
+                <p className="text-base sm:text-lg leading-relaxed opacity-90">
+                  Acompanhe a jornada de um jovem guerreiro indígena 
+                  que carrega o peso ancestral de proteger a floresta sagrada contra forças sombrias que há séculos 
+                  assombram seus povos.
+                </p>
+                
+                <div className="flex items-center justify-center my-6">
+                  <div className="h-px w-24 bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
+                </div>
+                
+                <p className="text-base sm:text-lg leading-relaxed opacity-85">
+                 Espíritos malignos como sacis
+                  corpos-secos e outras 
+                criaturas do folclore
+                  espreitam nas sombras, prontas para desafiar sua coragem.
+                </p>
+                
+                <p className="text-base sm:text-lg leading-relaxed opacity-85">
+                  Com jogabilidade ágil e intuitiva, 
+                  cada desafio é uma oportunidade de descobrir segredos ancestrais e desvendar mistérios 
+                  que há muito foram esquecidos.
+                </p>
+                
+                <div className="mt-6 p-4 bg-green-800/20 rounded-lg border-l-4 border-amber-400">
+                  <p className="text-sm sm:text-base italic text-amber-200">
+                    "Explore lendas, descubra cultura, proteja a floresta. 
+                    Cada passo é uma dança entre o mundo físico e o espiritual."
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -223,10 +263,7 @@ export default function Home() {
         className="bg-gray-200 text-black w-full !min-h-[50vh] sm:min-h-[50vh] md:min-h-[70vh] flex items-center justify-center px-4 sm:px-6 py-6 sm:py-10"
       >
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 md:gap-12 max-w-[1400px] w-full">
-          <div className="w-full md:w-2/5 !ml-2 text-center md:text-left">
-            <h2 className="titulo text-2xl sm:text-3xl md:text-5xl font-bold mb-4 sm:mb-6">
-              Personagens
-            </h2>
+          <div className="w-full md:w-2/5 !ml-2 text-center md:text-left">----
             <AnimatePresence initial={false} custom={direction} mode="wait">
               <motion.div
                 key={personagem.nome}
@@ -258,7 +295,7 @@ export default function Home() {
           <div className="w-full md:w-3/5 flex items-center justify-center relative">
             <button
               onClick={anterior}
-              className="absolute !left-10 md:-left-4 z-10 text-gray-800 hover:text-black hover:scale-110"
+              className="absolute !left-2 md:-left-2 z-10 text-gray-800 hover:text-black hover:scale-110"
             >
               <ChevronLeft size={30} />
             </button>
@@ -302,7 +339,7 @@ export default function Home() {
 
             <button
               onClick={proximo}
-              className="absolute !right-10 md:-right-4 z-10 text-gray-800 hover:text-black hover:scale-110"
+              className="absolute !right-2 md:-right-2 z-10 text-gray-800 hover:text-black hover:scale-110"
             >
               <ChevronRight size={30} />
             </button>
@@ -318,76 +355,82 @@ export default function Home() {
         <div className="flex flex-row md:flex-row items-center justify-center gap-6 sm:gap-8 md:gap-12 max-w-[1400px] w-full">
           {/* UM */}
           <div
-            className="!w-full md:w-2/5 !ml-2 flex flex-col justify-center items-center relative"
+            className="!w-full md:w-2/5 !ml-2 flex flex-col justify-center items-center relative group"
             onMouseEnter={() => setHoverCenario(0)}
             onMouseLeave={() => setHoverCenario(null)}
           >
-            <Image
-              src="/floresta.png"
-              width={1000}
-              height={700}
-              alt="Cenário de floresta"
-              className="rounded-lg w-full h-auto max-w-[600px] sm:max-w-[800px] md:max-w-[900px]"
-            />
+            <div className="relative w-full">
+              <Image
+                src="/floresta.png"
+                width={1000}
+                height={700}
+                alt="Cenário de floresta"
+                className="rounded-lg w-full h-auto max-w-[600px] sm:max-w-[800px] md:max-w-[900px]"
+              />
+              <AnimatePresence>
+                {hoverCenario === 0 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white rounded-lg p-6 z-20"
+                  >
+                    <h3 className="text-2xl font-bold mb-4">Floresta</h3>
+                    <p className="text-base text-center max-w-md">
+                      A floresta é o lar de muitos personagens e o ponto de partida da aventura. 
+                      Aqui, o jogador aprende as mecânicas básicas e conhece o folclore brasileiro.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
             <h2 className="titulo !text-5xl sm:text-4xl md:text-6xl font-bold !mt-1 sm:mb-6">
               Floresta
             </h2>
             <p className="!mb-4 sm:text-base max-w-[800px]">
               Cenário da floresta, onde se passa o início do jogo
             </p>
-            <AnimatePresence>
-              {hoverCenario === 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 30 }}
-                  transition={{ duration: 0.3 }}
-                  className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-10 flex flex-col items-center justify-center text-white rounded-lg p-4 z-20"
-                >
-                  <h3 className="text-2xl font-bold mb-2">Mais sobre a Floresta</h3>
-                  <p className="text-base">
-                    A floresta é o lar de muitos personagens e o ponto de partida da aventura. Aqui, o jogador aprende as mecânicas básicas e conhece o folclore brasileiro.
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
 
           {/* DOIS */}
           <div
-            className="!w-full md:w-2/5 !mr-2 flex flex-col justify-center items-center relative"
+            className="!w-full md:w-2/5 !mr-2 flex flex-col justify-center items-center relative group"
             onMouseEnter={() => setHoverCenario(1)}
             onMouseLeave={() => setHoverCenario(null)}
           >
-            <Image
-              src="/Caverna.png"
-              width={1000}
-              height={700}
-              alt="Cenário de caverna"
-              className="rounded-lg w-full h-auto max-w-[600px] sm:max-w-[800px] md:max-w-[900px]"
-            />
+            <div className="relative w-full">
+              <Image
+                src="/Caverna.png"
+                width={1000}
+                height={700}
+                alt="Cenário de caverna"
+                className="rounded-lg w-full h-auto max-w-[600px] sm:max-w-[800px] md:max-w-[900px]"
+              />
+              <AnimatePresence>
+                {hoverCenario === 1 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="absolute inset-0 bg-black bg-opacity-75 flex flex-col items-center justify-center text-white rounded-lg p-6 z-20"
+                  >
+                    <h3 className="text-2xl font-bold mb-4">Caverna</h3>
+                    <p className="text-base text-center max-w-md">
+                      A caverna é um ambiente desafiador, repleto de inimigos e segredos. 
+                      O jogador precisa explorar e superar obstáculos para avançar na história.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
             <h2 className="titulo !text-5xl sm:text-2xl md:text-2xl font-bold !mt-1 sm:mb-6">
               Caverna
             </h2>
             <p className="!mb-4 sm:text-base max-w-[800px]">
               Cenário da caverna, onde se passa a maior parte do jogo
             </p>
-            <AnimatePresence>
-              {hoverCenario === 1 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 30 }}
-                  transition={{ duration: 0.3 }}
-                  className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 flex flex-col items-center justify-center text-white rounded-lg p-4 z-20"
-                >
-                  <h3 className="text-2xl font-bold mb-2">Mais sobre a Caverna</h3>
-                  <p className="text-base">
-                    A caverna é um ambiente desafiador, repleto de inimigos e segredos. O jogador precisa explorar e superar obstáculos para avançar na história.
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
         </div>
       </section>
