@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { IoMdMenu } from "react-icons/io";
 import Link from "next/link";
 import Image from "next/image";
@@ -10,28 +10,28 @@ import ScrollToTopButton from "./ScrollToTopButton";
 
 export default function Home() {
   const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState(0); 
+  const [direction, setDirection] = useState(0);
   const personagens = [
     {
       nome: "Curupira",
-      descricao: "Mestre de Caeté e o anterior guardião da floresta.",
+      descricao: "Curupira é o mestre de Caeté e o anterior guardião da floresta. Ele viu no jovem um grande potencial e, por isso, o escolheu como seu discípulo.",
       imagem: "/curupira.png",
     },
     {
       nome: "Iúna",
-      descricao: "Uma jovem guerreira indígena de uma tribo rival a de Caeté.",
+      descricao: "É uma jovem indígena de uma tribo rival à de Caeté. A jovem invade as terras do povo de Caeté e descobre ruínas de um povo antigo. Dentro dessa ruína, aprende a invocar e controlar esses espíritos malignos. Ela é a responsável por comandar o Mapinguari.",
       imagem: "/iara.png",
     },
     {
       nome: "Saci",
       descricao:
-        "Espírito maligno com poderes de vento que anda sempre em grupo atormentando os moradores da floresta.",
+        "É o segundo inimigo do jogo, um espírito maligno com poderes que controlam o vento e que também se encontra em grupos de 2 ou mais Sacis. Gostam muito de fazer travessuras e, por isso, são conhecidos por atormentar aqueles que vivem na floresta.",
       imagem: "/saci.png",
     },
     {
       nome: "Caeté",
       descricao:
-        "O nosso protagonista da história, é um jovem guerreiro indígena que está sucedendo o cargo de guardião da floresta.",
+        "Nosso protagonista, um jovem guerreiro indígena que está sucedendo de seu mestre o cargo de guardião da floresta. Caeté possui um coco chamado “Coco de tucumã”, que ele usa para aprisionar os espíritos malignos.",
       imagem: "/caete.PNG",
     },
     {
@@ -43,8 +43,20 @@ export default function Home() {
     {
       nome: "Corpo-Seco",
       descricao:
-        "Um espírito extremamente parecido com um morto vivo, também se encontra em grupo colocando medo em quem habita as matas.",
+        "É o primeiro inimigo do jogo. Ele se assemelha muito a um morto-vivo e normalmente é encontrado em grupo, o que pode causar problemas para o nosso jovem Caeté.",
       imagem: "/corposeco.png",
+    },
+    {
+      nome: "waké",
+      descricao:
+        "é um espirito azul",
+      imagem: "/wake.png",
+    },
+    {
+      nome: "Mapinguari",
+      descricao:
+        "É o grande chefão do jogo, o inimigo mais poderoso e mais complicado que vamos enfrentar nesta jornada. Um gigante coberto por pelos que habita nas florestas, conhecido por suas características físicas, como seu único olho e uma boca que cobre todo o seu tronco. Assim, ele coloca medo em todos que vivem na floresta.",
+      imagem: "/mapinguari.png",
     },
   ];
   const personagem = personagens[index];
@@ -109,6 +121,10 @@ export default function Home() {
 
   // Estados para hover dos cards
   const [hoverCenario, setHoverCenario] = useState(null);
+
+  // Ref e inView para animar a seção de download
+  const downloadRef = useRef(null);
+  const isInView = useInView(downloadRef, { once: true, margin: "-100px" });
 
   return (
     <>
@@ -203,7 +219,7 @@ export default function Home() {
             zIndex: 1,
           }}
         >
-          
+
           <div className="max-w-[900px] mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -214,40 +230,40 @@ export default function Home() {
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 mb-6 text-center">
                 Naurú
               </h2>
-              
+
               <div className="space-y-4 text-gray-100">
                 <p className="text-lg sm:text-xl leading-relaxed font-light">
-                  Naurú é um jogo 
-               Metroidvania que 
+                  Naurú é um jogo
+                  Metroidvania que
                   mergulha nas profundezas do nosso rico folclore brasileiro.
                 </p>
-                
+
                 <p className="text-base sm:text-lg leading-relaxed opacity-90">
-                  Acompanhe a jornada de um jovem guerreiro indígena 
-                  que carrega o peso ancestral de proteger a floresta sagrada contra forças sombrias que há séculos 
+                  Acompanhe a jornada de um jovem guerreiro indígena
+                  que carrega o peso ancestral de proteger a floresta sagrada contra forças sombrias que há séculos
                   assombram seus povos.
                 </p>
-                
+
                 <div className="flex items-center justify-center my-6">
                   <div className="h-px w-24 bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
                 </div>
-                
+
                 <p className="text-base sm:text-lg leading-relaxed opacity-85">
-                 Espíritos malignos como sacis
-                  corpos-secos e outras 
-                criaturas do folclore
+                  Espíritos malignos como sacis
+                  corpos-secos e outras
+                  criaturas do folclore
                   espreitam nas sombras, prontas para desafiar sua coragem.
                 </p>
-                
+
                 <p className="text-base sm:text-lg leading-relaxed opacity-85">
-                  Com jogabilidade ágil e intuitiva, 
-                  cada desafio é uma oportunidade de descobrir segredos ancestrais e desvendar mistérios 
+                  Com jogabilidade ágil e intuitiva,
+                  cada desafio é uma oportunidade de descobrir segredos ancestrais e desvendar mistérios
                   que há muito foram esquecidos.
                 </p>
-                
+
                 <div className="mt-6 p-4 bg-green-800/20 rounded-lg border-l-4 border-amber-400">
                   <p className="text-sm sm:text-base italic text-amber-200">
-                    "Explore lendas, descubra cultura, proteja a floresta. 
+                    "Explore lendas, descubra cultura, proteja a floresta.
                     Cada passo é uma dança entre o mundo físico e o espiritual."
                   </p>
                 </div>
@@ -263,7 +279,7 @@ export default function Home() {
         className="bg-gray-200 text-black w-full !min-h-[50vh] sm:min-h-[50vh] md:min-h-[70vh] flex items-center justify-center px-4 sm:px-6 py-6 sm:py-10"
       >
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 md:gap-12 max-w-[1400px] w-full">
-          <div className="w-full md:w-2/5 !ml-2 text-center md:text-left">----
+          <div className="w-full md:w-2/5 !ml-2 text-center md:text-left">
             <AnimatePresence initial={false} custom={direction} mode="wait">
               <motion.div
                 key={personagem.nome}
@@ -282,9 +298,9 @@ export default function Home() {
                 }}
                 transition={{ duration: 0.4, type: "tween" }}
               >
-                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold mb-4 sm:mb-6">
+                <h1 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-6">
                   {personagem.nome}
-                </h3>
+                </h1>
                 <p className="text-sm sm:text-base md:text-lg leading-relaxed">
                   {personagem.descricao}
                 </p>
@@ -292,16 +308,18 @@ export default function Home() {
             </AnimatePresence>
           </div>
 
-          <div className="w-full md:w-3/5 flex items-center justify-center relative">
-            <button
-              onClick={anterior}
-              className="absolute !left-2 md:-left-2 z-10 text-gray-800 hover:text-black hover:scale-110"
-            >
+          <div
+            className="w-full md:w-3/5 flex items-center justify-center relative"
+            style={{ marginTop: "10px", marginBottom: "10px" }}
+          >            <button
+            onClick={anterior}
+            className="absolute !left-2 md:-left-2 z-10 text-gray-800 hover:text-black hover:scale-110"
+          >
               <ChevronLeft size={30} />
             </button>
 
             {/* Container com position: relative para animação funcionar */}
-            <div className="w-[200px] h-[200px] sm:w-[280px] sm:h-[280px] md:w-[400px] md:h-[400px] rounded-full border-2 border-black flex items-center justify-center overflow-hidden relative bg-gray-300">
+            <div className="w-[200px] h-[200px] sm:w-[280px] sm:h-[280px] md:w-[400px] md:h-[400px] rounded-full flex items-center justify-center overflow-hidden relative bg-gray-300">
               <AnimatePresence initial={false} custom={direction}>
                 <motion.div
                   key={personagem.nome}
@@ -352,96 +370,130 @@ export default function Home() {
         <h2 className="titulo text-2xl sm:text-4xl md:text-6xl font-bold !mb-4 !mt-2 flex items-center justify-center">
           Cenários
         </h2>
-        <div className="flex flex-row md:flex-row items-center justify-center gap-6 sm:gap-8 md:gap-12 max-w-[1400px] w-full">
-          {/* UM */}
-          <div
+        <div className="flex flex-col md:flex-row items-center justify-center gap-10 sm:gap-12 md:gap-20 max-w-[1400px] w-full">
+          {/* Floresta */}
+          <motion.div
+            initial={{ y: 80, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, type: "spring" }}
             className="!w-full md:w-2/5 !ml-2 flex flex-col justify-center items-center relative group"
-            onMouseEnter={() => setHoverCenario(0)}
-            onMouseLeave={() => setHoverCenario(null)}
           >
-            <div className="relative w-full">
-              <Image
-                src="/floresta.png"
-                width={1000}
-                height={700}
-                alt="Cenário de floresta"
-                className="rounded-lg w-full h-auto max-w-[600px] sm:max-w-[800px] md:max-w-[900px]"
-              />
-              <AnimatePresence>
-                {hoverCenario === 0 && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white rounded-lg p-6 z-20"
-                  >
-                    <h3 className="text-2xl font-bold mb-4">Floresta</h3>
-                    <p className="text-base text-center max-w-md">
-                      A floresta é o lar de muitos personagens e o ponto de partida da aventura. 
-                      Aqui, o jogador aprende as mecânicas básicas e conhece o folclore brasileiro.
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+            <div className="relative w-full overflow-hidden rounded-lg">
+              <motion.div
+                whileHover={{ scale: 1.07 }}
+                className="transition-all duration-300 ease-in-out"
+              >
+                <Image
+                  src="/floresta.png"
+                  width={1000}
+                  height={700}
+                  alt="Cenário de floresta"
+                  className="rounded-lg w-full h-auto max-w-[600px] sm:max-w-[800px] md:max-w-[900px] scenario-image group-hover:brightness-50 transition-all duration-300"
+                  style={{ transition: "all 0.3s" }}
+                />
+                {/* Overlay ao passar o mouse */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                  className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center text-white rounded-lg p-6 z-20 transition-all duration-300"
+                >
+                  <h3 className="text-2xl font-bold mb-4">Floresta</h3>
+                  <p className="text-base text-center max-w-md">
+                    Esse é o primeiro cenário do jogo, nele o jogador irá aprender todas as mecânicas dentro do mundo de Naurú, por exemplo, como se movimentar, técnicas de combate e o objetivo do jogo. Caeté irá ficar pouquíssimo tempo na floresta.
+                  </p>
+                </motion.div>
+              </motion.div>
             </div>
-            <h2 className="titulo !text-5xl sm:text-4xl md:text-6xl font-bold !mt-1 sm:mb-6">
+            <motion.h2
+              initial={{ y: 40, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="titulo !text-5xl sm:text-4xl md:text-6xl font-bold !mt-1 sm:mb-6 scenario-title"
+            >
               Floresta
-            </h2>
-            <p className="!mb-4 sm:text-base max-w-[800px]">
+            </motion.h2>
+            <motion.p
+              initial={{ y: 40, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="!mb-4 sm:text-base max-w-[800px] scenario-subtitle"
+            >
               Cenário da floresta, onde se passa o início do jogo
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
-          {/* DOIS */}
-          <div
+          {/* Caverna */}
+          <motion.div
+            initial={{ y: 80, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, type: "spring", delay: 0.2 }}
             className="!w-full md:w-2/5 !mr-2 flex flex-col justify-center items-center relative group"
-            onMouseEnter={() => setHoverCenario(1)}
-            onMouseLeave={() => setHoverCenario(null)}
           >
-            <div className="relative w-full">
-              <Image
-                src="/Caverna.png"
-                width={1000}
-                height={700}
-                alt="Cenário de caverna"
-                className="rounded-lg w-full h-auto max-w-[600px] sm:max-w-[800px] md:max-w-[900px]"
-              />
-              <AnimatePresence>
-                {hoverCenario === 1 && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="absolute inset-0 bg-black bg-opacity-75 flex flex-col items-center justify-center text-white rounded-lg p-6 z-20"
-                  >
-                    <h3 className="text-2xl font-bold mb-4">Caverna</h3>
-                    <p className="text-base text-center max-w-md">
-                      A caverna é um ambiente desafiador, repleto de inimigos e segredos. 
-                      O jogador precisa explorar e superar obstáculos para avançar na história.
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+            <div className="relative w-full overflow-hidden rounded-lg">
+              <motion.div
+                whileHover={{ scale: 1.07 }}
+                className="transition-all duration-300 ease-in-out"
+              >
+                <Image
+                  src="/Caverna.png"
+                  width={1000}
+                  height={700}
+                  alt="Cenário de caverna"
+                  className="rounded-lg w-full h-auto max-w-[600px] sm:max-w-[800px] md:max-w-[900px] group-hover:brightness-50 transition-all duration-300"
+                  style={{ transition: "all 0.3s" }}
+                />
+                {/* Overlay ao passar o mouse */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                  className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center text-white rounded-lg p-6 z-20 transition-all duration-300"
+                >
+                  <h3 className="text-2xl font-bold mb-4">Caverna</h3>
+                  <p className="text-base text-center max-w-md">
+                    Na caverna, o jogador enfrentará os diversos inimigos dentro do game, utilizando os ensinamentos adquiridos na floresta, é aqui que você passará a maior parte da experiência do jogo.
+                  </p>
+                </motion.div>
+              </motion.div>
             </div>
-            <h2 className="titulo !text-5xl sm:text-2xl md:text-2xl font-bold !mt-1 sm:mb-6">
+            <motion.h2
+              initial={{ y: 40, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="titulo !text-5xl sm:text-2xl md:text-2xl font-bold !mt-1 sm:mb-6"
+            >
               Caverna
-            </h2>
-            <p className="!mb-4 sm:text-base max-w-[800px]">
+            </motion.h2>
+            <motion.p
+              initial={{ y: 40, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="!mb-4 sm:text-base max-w-[800px]"
+            >
               Cenário da caverna, onde se passa a maior parte do jogo
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
         </div>
       </section>
 
       {/*BAIXAR*/}
       <section
         id="download"
+        ref={downloadRef}
         className="relative bg-gray-200 text-black w-full !min-h-[50vh] sm:min-h-[50vh] md:min-h-[70vh] flex items-center justify-center px-4 sm:px-6 py-6 sm:py-10 overflow-hidden"
       >
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 md:gap-12 max-w-[1400px] w-full z-10">
-          <div className="w-full md:w-2/5 text-center md:text-left">
+          <motion.div
+            className="w-full md:w-2/5 text-center md:text-left"
+            initial={{ x: -100, opacity: 0 }}
+            animate={isInView ? { x: 20, opacity: 1 } : {}}
+            transition={{ duration: 1.2, type: "spring" }}
+          >
             <h2 className="titulo text-3xl sm:text-5xl md:text-6xl lg:text-8xl !ml-2 font-bold leading-tight">
               Baixe Agora
             </h2>
@@ -451,13 +503,16 @@ export default function Home() {
                 Baixar
               </button>
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        <img
+        <motion.img
           className="absolute right-0 top-1/2 -translate-y-1/2 !h-full sm:h-40 md:h-56 lg:h-[32rem] object-cover z-0 opacity-30 md:opacity-100"
           src="/manga.png"
           alt="Imagem Manga"
+          initial={{ x: 100, opacity: 0 }}
+          animate={isInView ? { x: 0, opacity: 1 } : {}}
+          transition={{ duration: 1.2, type: "spring" }}
         />
       </section>
 
@@ -473,18 +528,18 @@ export default function Home() {
           <p className="text-white text-sm sm:text-base !mt-2 !mb-5">
             Conheça os integrantes que estão por trás do nosso projeto.
           </p>
-          <div className="grid gap-6 mt-8 grid-cols-2 sm:grid-cols-2 md:grid-cols-3">
+          <div className="flex flex-wrap justify-center gap-8 mt-8">
             {Equipe.map((membro, index) => (
               <div
                 key={index}
-                className="shadow-lg w-full flex flex-col items-center justify-between text-center px-2 py-4"
+                className="flex flex-col items-center text-center"
               >
-                <div className="w-32 h-32 sm:w-36 sm:h-36 relative mb-2">
+                <div className="w-32 h-32 sm:w-36 sm:h-36 relative mb-2 group">
                   <Image
                     src={membro.imageUrl}
                     alt={membro.name}
                     fill
-                    className="rounded-full object-cover"
+                    className="rounded-full object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                 </div>
                 <h3 className="text-base sm:text-xl font-semibold text-amber-400">

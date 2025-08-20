@@ -1,0 +1,67 @@
+/* Scenario hover effects for the CENARIO section */
+.scenario-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+
+.scenario-container:hover {
+  transform: scale(1.1);
+  z-index: 10;
+}
+
+.scenario-container:hover .scenario-image {
+  transform: scale(1.2);
+}
+
+.scenario-image {
+  transition: transform 0.4s ease;
+  width: 100%;
+  height: auto;
+}
+
+.scenario-title,
+.scenario-subtitle {
+  transition: opacity 0.3s ease;
+}
+
+.scenario-container:hover .scenario-title,
+.scenario-container:hover .scenario-subtitle {
+  opacity: 0;
+}
+
+.cenario-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  transition: all 0.4s ease;
+}
+
+.cenario-card:hover {
+  transform: scale(1.1);
+  z-index: 10;
+}
+
+.cenario-card:hover img {
+  transform: scale(1.2);
+}
+
+.cenario-card img {
+  transition: transform 0.4s ease;
+}
+
+.cenario-card:hover .cenario-text-overlay {
+  opacity: 0;
+}
+
+.cenario-text-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
