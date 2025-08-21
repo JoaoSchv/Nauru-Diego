@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ScrollToTopButton from "./ScrollToTopButton";
+import TitleAnimado  from "./TitleAnimado";
 
 export default function Home() {
   // Ajuste dinâmico do translateX para textos dos cenários
@@ -173,57 +174,21 @@ export default function Home() {
           }}
         />
 
-        <header
-          className="w-full relative z-20"
-          style={{ width: "100%", position: "relative", zIndex: 2 }}
+        {/* NAVBAR FIXADA EMBAIXO DA HERO, ANIMADA */}
+        <motion.nav
+          initial={{ y: 80, opacity: 0 }}
+          animate={typeof window !== 'undefined' && window.__navbarReady ? { y: 0, opacity: 1 } : {}}
+          transition={{ duration: 0.8, delay: 2.8, ease: "easeOut" }}
+          className="w-full flex justify-center items-end absolute left-0 bottom-0 z-30 pointer-events-none"
+          style={{ minHeight: '80px' }}
         >
-          <div className="navbar navbar px-4 sm:px-8 py-4 flex justify-between items-center">
-            <div className="logoImg">
-              <h1 className="titulo !text-5xl sm:text-2xl">Naurú</h1>
-            </div>
-            <ul className="links md:flex gap-6 text-white font-medium">
-              <li>
-                <Link href="/">Home</Link>
-              </li>
-              <li>
-                <Link href="#artes">Artes</Link>
-              </li>
-              <li>
-                <Link href="#download">Download</Link>
-              </li>
-              <li>
-                <Link href="#sobrenos">Sobre Nós</Link>
-              </li>
-            </ul>
-            <Link href="#download" className="actionButton hidden md:block">
-              Bora lá
-            </Link>
-            <div className="toggleButton md:hidden">
-              <button onClick={toggleMenu}>
-                <IoMdMenu className="text-white text-2xl" />
-              </button>
-            </div>
+          <div className="flex gap-4 pb-6 pointer-events-auto">
+            <Link href="/" className="book-tab-btn">Home</Link>
+            <Link href="#artes" className="book-tab-btn">Artes</Link>
+            <Link href="#download" className="book-tab-btn">Download</Link>
+            <Link href="#sobrenos" className="book-tab-btn">Sobre Nós</Link>
           </div>
-          <div className="dropdownMenu md:hidden z-20 bg-black bg-opacity-80 text-white text-center">
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li>
-              <Link href="#artes">Artes</Link>
-            </li>
-            <li>
-              <Link href="#download">Download</Link>
-            </li>
-            <li>
-              <Link href="#sobrenos">Sobre-nós</Link>
-            </li>
-            <li>
-              <Link href="#download" className="actionButton">
-                Bora lá
-              </Link>
-            </li>
-          </div>
-        </header>
+        </motion.nav>
         <div
           className="flex-1 w-full flex flex-col items-center justify-center text-white text-center px-4 sm:px-10 py-8 sm:py-16 relative z-10"
           style={{
@@ -240,59 +205,10 @@ export default function Home() {
             zIndex: 1,
           }}
         >
-
-          <div className="max-w-[900px] mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="bg-gradient-to-br from-green-900/20 via-emerald-900/15 to-green-800/10 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-green-700/30 shadow-2xl shadow-green-900/20"
-            >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 mb-6 text-center">
-                Naurú
-              </h2>
-
-              <div className="space-y-4 text-gray-100">
-                <p className="text-lg sm:text-xl leading-relaxed font-light">
-                  Naurú é um jogo
-                  Metroidvania que
-                  mergulha nas profundezas do nosso rico folclore brasileiro.
-                </p>
-
-                <p className="text-base sm:text-lg leading-relaxed opacity-90">
-                  Acompanhe a jornada de um jovem guerreiro indígena
-                  que carrega o peso ancestral de proteger a floresta sagrada contra forças sombrias que há séculos
-                  assombram seus povos.
-                </p>
-
-                <div className="flex items-center justify-center my-6">
-                  <div className="h-px w-24 bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
-                </div>
-
-                <p className="text-base sm:text-lg leading-relaxed opacity-85">
-                  Espíritos malignos como sacis
-                  corpos-secos e outras
-                  criaturas do folclore
-                  espreitam nas sombras, prontas para desafiar sua coragem.
-                </p>
-                
-
-                <p className="text-base sm:text-lg leading-relaxed opacity-85">
-                  Com jogabilidade ágil e intuitiva,
-                  cada desafio é uma oportunidade de descobrir segredos ancestrais e desvendar mistérios
-                  que há muito foram esquecidos.
-                </p>
-
-                <div className="mt-6 p-4 bg-green-800/20 rounded-lg border-l-4 border-amber-400">
-                  <p className="text-sm sm:text-base italic text-amber-200">
-                    "Explore lendas, descubra cultura, proteja a floresta.
-                    Cada passo é uma dança entre o mundo físico e o espiritual."
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
+          <TitleAnimado onEnd={() => { if (typeof window !== 'undefined') window.__navbarReady = true; }} />
         </div>
+/* Adicione no topo do arquivo, após os imports principais */
+import './navbarBookTab.css';
       </section>
 
       {/*PERSONAGE*/}
