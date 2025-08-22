@@ -9,6 +9,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ScrollToTopButton from "./ScrollToTopButton";
 import TitleAnimado  from "./TitleAnimado";
+import './navbarBookTab.css';
 
 export default function Home() {
   // Ajuste dinâmico do translateX para textos dos cenários
@@ -161,6 +162,43 @@ export default function Home() {
           <source src="/teste.mp4" type="video/mp4" />
         </video>
 
+        {/* NAVBAR SÓ NO TOPO DA HERO */}
+        <header className="w-full absolute top-0 left-0 z-20">
+          <nav className="w-full bg-black/60 px-4 sm:px-8 py-4 flex justify-between items-center rounded-b-2xl shadow-lg">
+            <div className="logoImg">
+              <h1 className="titulo !text-3xl sm:text-2xl text-amber-300 font-bold" style={{fontFamily: 'Rimba Andalas, sans-serif'}}>Naurú</h1>
+            </div>
+            <ul className="links md:flex gap-6 text-white font-medium hidden md:flex">
+              <li>
+                <a href="#hero" className="hover:text-amber-300 transition-colors">Home</a>
+              </li>
+              <li>
+                <a href="#artes" className="hover:text-amber-300 transition-colors">Artes</a>
+              </li>
+              <li>
+                <a href="#download" className="hover:text-amber-300 transition-colors">Download</a>
+              </li>
+              <li>
+                <a href="#sobrenos" className="hover:text-amber-300 transition-colors">Sobre Nós</a>
+              </li>
+            </ul>
+            <a href="#download" className="actionButton hidden md:block">Bora lá</a>
+            <div className="toggleButton md:hidden">
+              <button onClick={toggleMenu}>
+                <IoMdMenu className="text-white text-2xl" />
+              </button>
+            </div>
+          </nav>
+          {/* Dropdown mobile */}
+          <div className="dropdownMenu md:hidden z-30 bg-black bg-opacity-80 text-white text-center">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#artes">Artes</a></li>
+            <li><a href="#download">Download</a></li>
+            <li><a href="#sobrenos">Sobre-nós</a></li>
+            <li><a href="#download" className="actionButton">Bora lá</a></li>
+          </div>
+        </header>
+        
         <div
           className="absolute top-0 left-0 w-full h-full bg-[rgba(40,40,40,0.5)] z-10 "
           style={{
@@ -174,23 +212,8 @@ export default function Home() {
           }}
         />
 
-        {/* NAVBAR FIXADA EMBAIXO DA HERO, ANIMADA */}
-        <motion.nav
-          initial={{ y: 80, opacity: 0 }}
-          animate={typeof window !== 'undefined' && window.__navbarReady ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 2.8, ease: "easeOut" }}
-          className="w-full flex justify-center items-end absolute left-0 bottom-0 z-30 pointer-events-none"
-          style={{ minHeight: '80px' }}
-        >
-          <div className="flex gap-4 pb-6 pointer-events-auto">
-            <Link href="/" className="book-tab-btn">Home</Link>
-            <Link href="#artes" className="book-tab-btn">Artes</Link>
-            <Link href="#download" className="book-tab-btn">Download</Link>
-            <Link href="#sobrenos" className="book-tab-btn">Sobre Nós</Link>
-          </div>
-        </motion.nav>
         <div
-          className="flex-1 w-full flex flex-col items-center justify-center text-white text-center px-4 sm:px-10 py-8 sm:py-16 relative z-10"
+          className="flex-1 w-full flex flex-col items-center justify-center text-white text-center px-4 sm:px-10 py-8 sm:py-16 relative z-0"
           style={{
             flex: 1,
             width: "100%",
@@ -207,8 +230,6 @@ export default function Home() {
         >
           <TitleAnimado onEnd={() => { if (typeof window !== 'undefined') window.__navbarReady = true; }} />
         </div>
-/* Adicione no topo do arquivo, após os imports principais */
-import './navbarBookTab.css';
       </section>
 
       {/*PERSONAGE*/}
@@ -491,56 +512,53 @@ import './navbarBookTab.css';
         </div>
       </section>
 
-      {/*Footer*/}
-      <section className="bg-gray-100 text-white w-full !min-h-[22.5vh] sm:min-h-[50vh] md:min-h-[60vh] flex items-center justify-center px-4 sm:px-6 py-6 sm:py-10">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-6 sm:gap-8 md:gap-12 max-w-[1400px] w-full">
-          <div className="w-full md:w-2/5">
-            <h2 className="titulo !text-[32px] sm:text-2xl md:text-6xl font-bold text-black sm:mb-6 flex items-center justify-center">
-              Naurú
-            </h2>
-            <p className="!text-[12px] sm:text-base md:text-xl text-black leading-relaxed flex items-center justify-center">
-              © 2025 Naurú. Todos os direitos reservados.
+      <ScrollToTopButton />
+
+      <footer className="w-full bg-black text-white pt-12 pb-4 border-t border-[#333] mt-8">
+        <div className=" mx-auto flex flex-col md:flex-row justify-center items-center px-8 gap-12 md:gap-2 text-center">
+          {/* Coluna 1: Descrição */}
+          <div className="flex-1 min-w-[220px] mb-10 md:mb-0 flex flex-col items-center text-center">
+            <h2 className="text-4xl font-bold text-amber-400 mb-2" style={{fontFamily: 'Rimba Andalas, sans-serif'}}>Nauru</h2>
+            <p className="text-white text-base max-w-xs">
+              Uma jornada única desenvolvida pela <span className="font-bold text-amber-400">AgroPescaStudios</span>, onde natureza e desafio se encontram
             </p>
-            <div className="flex items-center justify-center !mt-2">
-              <Image
-                src="/14anos.png"
-                width={75}
-                height={75}
-                alt="Classificação Indicativa"
-                className="rounded-lg flex !items-center"
-              />
+          </div>
+          {/* Coluna 2: Navegação */}
+          <div className="flex-1 min-w-[180px] mb-10 md:mb-0 flex flex-col items-center text-center">
+            <h3 className="text-2xl font-semibold mb-3 text-amber-400">Navegação</h3>
+            <ul className="text-white space-y-1 text-base">
+              <li><a href="#sobrenos" className="hover:text-amber-400 transition-colors" style={{ fontSize: '18px' }}>Sobre o Jogo</a></li>
+              <li><a href="#" className="hover:text-amber-400 transition-colors" style={{ fontSize: '18px' }}>Notícias</a></li>
+              <li><a href="#" className="hover:text-amber-400 transition-colors" style={{ fontSize: '18px' }}>Comunidade</a></li>
+              <li><a href="#" className="hover:text-amber-400 transition-colors" style={{ fontSize: '18px' }} >Suporte</a></li>
+            </ul>
+          </div>
+          {/* Coluna 3: Redes Sociais */}
+          <div className="flex-1 min-w-[180px] flex flex-col items-center text-center">
+            <h3 className="text-2xl font-semibold mb-3 text-amber-400">Conecte-se</h3>
+            <div className="flex flex-row gap-4 mt-2 justify-center">
+              <a href="#" className="bg-amber-400 hover:bg-yellow-400 transition-colors rounded-full w-12 h-12 flex items-center justify-center" aria-label="Twitter">
+                {/* Twitter */}
+                <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 text-black"><path strokeLinecap="round" strokeLinejoin="round" d="M8.29 20c7.547 0 11.675-6.155 11.675-11.495 0-.175 0-.349-.012-.522A8.18 8.18 0 0022 5.92a8.19 8.19 0 01-2.357.637A4.118 4.118 0 0021.448 4.1a8.224 8.224 0 01-2.605.977A4.107 4.107 0 0015.448 3c-2.266 0-4.104 1.822-4.104 4.07 0 .32.036.634.106.934C7.728 7.87 4.1 6.13 1.671 3.149a4.025 4.025 0 00-.555 2.048c0 1.413.725 2.662 1.825 3.392A4.093 4.093 0 01.8 7.575v.051c0 1.974 1.417 3.627 3.292 4.004a4.1 4.1 0 01-1.853.07c.522 1.614 2.037 2.792 3.833 2.825A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" /></svg>
+              </a>
+              <a href="#" className="bg-amber-400 hover:bg-yellow-400 transition-colors rounded-full w-12 h-12 flex items-center justify-center" aria-label="Instagram">
+                {/* Instagram */}
+                <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 text-black"><rect width="18" height="18" x="3" y="3" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+              </a>
+              <a href="#" className="bg-amber-400 hover:bg-yellow-400 transition-colors rounded-full w-12 h-12 flex items-center justify-center" aria-label="YouTube">
+                {/* YouTube */}
+                <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 text-black"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M10 9.5v5l5-2.5-5-2.5z"/></svg>
+              </a>
+              <a href="#" className="bg-amber-400 hover:bg-yellow-400 transition-colors rounded-full w-12 h-12 flex items-center justify-center" aria-label="Discord">
+                {/* Discord */}
+                <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 text-black"><path d="M20.317 4.369A19.791 19.791 0 0016.885 3.2a.077.077 0 00-.082.038c-.357.63-.755 1.453-1.037 2.104a18.524 18.524 0 00-5.532 0c-.282-.651-.68-1.473-1.037-2.104a.077.077 0 00-.082-.038c-3.432 1.07-6.13 3.3-6.13 11.1 0 2.2.788 4.01 2.09 5.37a.06.06 0 00.01.01c2.13 1.56 5.13 1.6 6.84 1.6s4.71-.04 6.84-1.6a.06.06 0 00.01-.01c1.302-1.36 2.09-3.17 2.09-5.37 0-7.8-2.698-10.03-6.13-11.1zM8.02 15.11c-.789 0-1.43-.72-1.43-1.6 0-.88.64-1.6 1.43-1.6.8 0 1.44.72 1.44 1.6 0 .88-.64 1.6-1.44 1.6zm7.96 0c-.79 0-1.43-.72-1.43-1.6 0-.88.64-1.6 1.43-1.6.8 0 1.44.72 1.44 1.6 0 .88-.64 1.6-1.44 1.6z"/></svg>
+              </a>
             </div>
           </div>
         </div>
-      </section>
-
-      <ScrollToTopButton />
-
-      <footer className="w-full bg-white text-black py-8 border-t border-gray-200 mt-8">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 gap-8">
-          <div className="flex flex-col items-center md:items-start w-full md:w-auto">
-            <span className="font-bold text-2xl tracking-wide mb-1">Naurú</span>
-            <span className="text-xs text-gray-500 mb-2">© 2025 Naurú. Todos os direitos reservados.</span>
-            <div className="flex items-center justify-center mt-2">
-              <Image
-                src="/14anos.png"
-                width={50}
-                height={50}
-                alt="Classificação Indicativa"
-                className="rounded-lg flex !items-center"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col items-center md:items-end w-full md:w-auto">
-            <span className="font-semibold text-base mb-1">D---------</span>
-            <div className="flex items-center gap-2">
-              {/* Substitua o src abaixo pela logo da distribuidora */}
-              <div className="w-12 h-12 bg-gray-200 rounded flex items-center justify-center">
-                <span className="text-xs text-gray-400">Logo</span>
-              </div>
-              <span className="text-sm text-gray-600">------------</span>
-            </div>
-          </div>
+        <hr className="my-8 border-[#333]" />
+        <div className="text-center text-white text-sm">
+          © 2025 <span className="text-amber-400 font-bold">AgroPescaStudios</span>. Todos os direitos reservados.
         </div>
       </footer>
     </>

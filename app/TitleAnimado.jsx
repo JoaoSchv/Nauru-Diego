@@ -62,14 +62,14 @@ export default function TitleAnimado() {
         <motion.div
           initial={{ y: -40, opacity: 0 }}
           animate={subtitleControls}
-          className="absolute left-0 right-0 flex justify-center z-0"
+          className="absolute left-0 right-0 flex justify-center z-0 text-white-900"
           style={{ top: "50%" }}
         >
           <p className=" text-black" 
              style={{ fontFamily: "Arial, sans-serif",
                       maxWidth: '600px',
                       textAlign: 'center',
-                      fontSize: '18px',}}>
+                      fontSize: '20px',}}>
             Naurú é um jogo Metroidvania que mergulha nas profundezas do nosso
             rico folclore brasileiro. Acompanhe a jornada de um jovem guerreiro
             indígena que carrega o peso ancestral de proteger a floresta sagrada
