@@ -1,21 +1,22 @@
-/* Estilo para os botões tipo tira de livro */
-.book-tab-btn {
-  background: #222;
-  color: #ffd700;
+.book-tab {
+  background: #181818;           
+  color: #ffd700;                 
+  border-radius: 0 0 30px 30px;  
+  box-shadow: 0 2px 8px rgba(124, 71, 0, 0.08);
+  padding: 10px 24px;
+  margin: 0 8px;
   font-family: 'Rimba Andalas', serif;
-  font-size: 1.2rem;
-  padding: 0.7rem 2.2rem;
-  border-radius: 1.2rem 1.2rem 0.3rem 0.3rem;
-  margin: 0 0.5rem;
-  box-shadow: 0 4px 12px #0006;
-  border-bottom: 4px solid #bfa13a;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border-bottom: 4px solid #a67c1a;
   transition: background 0.2s, color 0.2s, transform 0.2s;
-  position: relative;
-  z-index: 10;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
 }
-.book-tab-btn:hover {
-  background: #ffd700;
-  color: #222;
-  transform: translateY(-4px) scale(1.05);
-  border-bottom: 4px solid #222;
+.book-tab:hover{
+  background: #232323;        
+  color: #ffe082;
+  transform: translateY(-3px) scale(1.15); 
+  box-shadow: 0 6px 16px rgba(124, 71, 0, 0.15);
 }

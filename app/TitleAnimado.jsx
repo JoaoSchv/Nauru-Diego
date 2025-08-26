@@ -1,7 +1,7 @@
 import { motion, useAnimation } from "framer-motion";
 import { useEffect, useState } from "react";
 
-export default function TitleAnimado() {
+export default function TitleAnimado({ onEnd }) {
   const controls = useAnimation();
   const [isYellow, setIsYellow] = useState(false);
   const [showSubtitle, setShowSubtitle] = useState(false);
@@ -26,12 +26,16 @@ export default function TitleAnimado() {
         opacity: 1,
         transition: { duration: 0.8, ease: "easeInOut" },
       });
+      if (onEnd) onEnd();
     }
     sequence();
-  }, [controls, titleMoveControls, subtitleControls]);
+  }, [controls, titleMoveControls, subtitleControls, onEnd]);
 
   return (
-    <div className="flex flex-col justify-center items-center h-[50vh] relative">
+    <div
+      className="flex flex-col justify-start items-center pt-2 relative"
+      style={{ minHeight: "0", height: "auto" }}
+    >
       <motion.div
         animate={titleMoveControls}
         initial={{ y: 0 }}
@@ -59,28 +63,43 @@ export default function TitleAnimado() {
           </motion.text>
         </svg>
       </motion.div>
-        <motion.div
-          initial={{ y: -40, opacity: 0 }}
-          animate={subtitleControls}
-          className="absolute left-0 right-0 flex justify-center z-0 text-white-900"
-          style={{ top: "50%" }}
+
+      {/* SUBTÍTULO: */}
+      <motion.div
+        initial={{ y: 20, opacity: 0 }} 
+        animate={subtitleControls}
+        className="flex justify-center"
+        style={{
+          width: "100%",
+          position: "relative",
+          top: "-110px",
+          zIndex: 20, 
+        }}
+      >
+        <p
+          className="bg-black/70 text-amber-100 px-6 py-4 rounded-2xl shadow-lg"
+          style={{
+            fontFamily: "Arial, sans-serif",
+            maxWidth: "600px",
+            textAlign: "center",
+            fontSize: "20px",
+            lineHeight: "1.5",
+            letterSpacing: "0.01em",
+            backdropFilter: "blur(2px)",
+            padding: "10px",
+          }}
         >
-          <p className=" text-black" 
-             style={{ fontFamily: "Arial, sans-serif",
-                      maxWidth: '600px',
-                      textAlign: 'center',
-                      fontSize: '20px',}}>
-            Naurú é um jogo Metroidvania que mergulha nas profundezas do nosso
-            rico folclore brasileiro. Acompanhe a jornada de um jovem guerreiro
-            indígena que carrega o peso ancestral de proteger a floresta sagrada
-            contra forças sombrias que há séculos assombram seus povos.
-            Espíritos malignos como sacis corpos-secos e outras criaturas do
-            folclore espreitam nas sombras, prontas para desafiar sua coragem.
-            Com jogabilidade ágil e intuitiva, cada desafio é uma oportunidade
-            de descobrir segredos ancestrais e desvendar mistérios que há muito
-            foram esquecidos.
-          </p>
-        </motion.div>
+          Naurú é um jogo Metroidvania que mergulha nas profundezas do nosso
+          rico folclore brasileiro. Acompanhe a jornada de um jovem guerreiro
+          indígena que carrega o peso ancestral de proteger a floresta sagrada
+          contra forças sombrias que há séculos assombram seus povos. Espíritos
+          malignos como sacis, corpos-secos e outras criaturas do folclore
+          espreitam nas sombras, prontas para desafiar sua coragem. Com
+          jogabilidade ágil e intuitiva, cada desafio é uma oportunidade de
+          descobrir segredos ancestrais e desvendar mistérios que há muito foram
+          esquecidos.
+        </p>
+      </motion.div>
     </div>
   );
 }

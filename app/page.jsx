@@ -8,41 +8,45 @@ import Link from "next/link";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ScrollToTopButton from "./ScrollToTopButton";
-import TitleAnimado  from "./TitleAnimado";
-import './navbarBookTab.css';
+import TitleAnimado from "./TitleAnimado";
+import "./navbarBookTab.css";
 
 export default function Home() {
-  // Ajuste dinâmico do translateX para textos dos cenários
-  const [translateCenario, setTranslateCenario] = useState('-40px');
-  const [translateCaverna, setTranslateCaverna] = useState('40px');
+  const [translateCenario, setTranslateCenario] = useState("-40px");
+  const [translateCaverna, setTranslateCaverna] = useState("40px");
+  const [tribalVisible, setTribalVisible] = useState(false);
+
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth >= 1024) {
-        setTranslateCenario('-50px');
-        setTranslateCaverna('60px');
+        setTranslateCenario("-50px");
+        setTranslateCaverna("60px");
       } else if (window.innerWidth >= 768) {
-        setTranslateCenario('-40px');
-        setTranslateCaverna('80px');
+        setTranslateCenario("-40px");
+        setTranslateCaverna("80px");
       } else {
-        setTranslateCenario('-40px');
-        setTranslateCaverna('40px');
+        setTranslateCenario("-40px");
+        setTranslateCaverna("40px");
       }
     }
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [navbarVisible, setNavbarVisible] = useState(false);
   const personagens = [
     {
       nome: "Curupira",
-      descricao: "Curupira é o mestre de Caeté e o anterior guardião da floresta. Ele viu no jovem um grande potencial e, por isso, o escolheu como seu discípulo.",
+      descricao:
+        "Curupira é o mestre de Caeté e o anterior guardião da floresta. Ele viu no jovem um grande potencial e, por isso, o escolheu como seu discípulo.",
       imagem: "/curupira.png",
     },
     {
       nome: "Iúna",
-      descricao: "É uma jovem indígena de uma tribo rival à de Caeté. A jovem invade as terras do povo de Caeté e descobre ruínas de um povo antigo. Dentro dessa ruína, aprende a invocar e controlar esses espíritos malignos. Ela é a responsável por comandar o Mapinguari.",
+      descricao:
+        "É uma jovem indígena de uma tribo rival à de Caeté. A jovem invade as terras do povo de Caeté e descobre ruínas de um povo antigo. Dentro dessa ruína, aprende a invocar e controlar esses espíritos malignos. Ela é a responsável por comandar o Mapinguari.",
       imagem: "/iara.png",
     },
     {
@@ -71,8 +75,7 @@ export default function Home() {
     },
     {
       nome: "waké",
-      descricao:
-        "é um espirito azul",
+      descricao: "é um espirito azul",
       imagem: "/wake.png",
     },
     {
@@ -142,12 +145,19 @@ export default function Home() {
     },
   ];
 
-  // Estados para hover dos cards
   const [hoverCenario, setHoverCenario] = useState(null);
-
-  // Ref e inView para animar a seção de download
   const downloadRef = useRef(null);
   const isInView = useInView(downloadRef, { once: true, margin: "-100px" });
+
+  function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (window.location.hash === `#${id}`) {
+        history.replaceState(null, null, " ");
+      }
+    }
+  }
 
   return (
     <>
@@ -162,43 +172,130 @@ export default function Home() {
           <source src="/teste.mp4" type="video/mp4" />
         </video>
 
-        {/* NAVBAR SÓ NO TOPO DA HERO */}
-        <header className="w-full absolute top-0 left-0 z-20">
-          <nav className="w-full bg-black/60 px-4 sm:px-8 py-4 flex justify-between items-center rounded-b-2xl shadow-lg">
-            <div className="logoImg">
-              <h1 className="titulo !text-3xl sm:text-2xl text-amber-300 font-bold" style={{fontFamily: 'Rimba Andalas, sans-serif'}}>Naurú</h1>
-            </div>
-            <ul className="links md:flex gap-6 text-white font-medium hidden md:flex">
-              <li>
-                <a href="#hero" className="hover:text-amber-300 transition-colors">Home</a>
-              </li>
-              <li>
-                <a href="#artes" className="hover:text-amber-300 transition-colors">Artes</a>
-              </li>
-              <li>
-                <a href="#download" className="hover:text-amber-300 transition-colors">Download</a>
-              </li>
-              <li>
-                <a href="#sobrenos" className="hover:text-amber-300 transition-colors">Sobre Nós</a>
-              </li>
-            </ul>
-            <a href="#download" className="actionButton hidden md:block">Bora lá</a>
-            <div className="toggleButton md:hidden">
-              <button onClick={toggleMenu}>
-                <IoMdMenu className="text-white text-2xl" />
-              </button>
-            </div>
-          </nav>
-          {/* Dropdown mobile */}
-          <div className="dropdownMenu md:hidden z-30 bg-black bg-opacity-80 text-white text-center">
-            <li><a href="#hero">Home</a></li>
-            <li><a href="#artes">Artes</a></li>
-            <li><a href="#download">Download</a></li>
-            <li><a href="#sobrenos">Sobre-nós</a></li>
-            <li><a href="#download" className="actionButton">Bora lá</a></li>
-          </div>
-        </header>
-        
+        {/* Listras tribais animadas */}
+        <AnimatePresence>
+          {tribalVisible && (
+            <>
+              <motion.div
+                className="tribal-stripe left"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <img
+                  src="/listraNauru_amarela.png"
+                  alt="Tribal Left"
+                  draggable={false}
+                />
+              </motion.div>
+              <motion.div
+                className="tribal-stripe right"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <img
+                  src="/listraNauru_amarela.png"
+                  alt="Tribal Right"
+                  draggable={false}
+                />
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* NAVBAR*/}
+        <AnimatePresence>
+          {navbarVisible && (
+            <motion.header
+              className="w-full absolute top-0 left-0 z-20"
+              initial={{ y: -80, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -80, opacity: 0 }}
+              transition={{ duration: 0.7, type: "spring" }}
+            >
+              <nav className="w-full px-4 sm:px-8 py-4 flex flex-col items-center">
+                <ul className="links flex gap-4 text-white font-medium justify-center">
+                  <li>
+                    <button
+                      className="book-tab"
+                      onClick={() => scrollToSection("hero")}
+                    >
+                      Home
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="book-tab"
+                      onClick={() => scrollToSection("artes")}
+                    >
+                      Artes
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="book-tab"
+                      onClick={() => scrollToSection("download")}
+                    >
+                      Download
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="book-tab"
+                      onClick={() => scrollToSection("sobrenos")}
+                    >
+                      Sobre Nós
+                    </button>
+                  </li>
+                </ul>
+                <div className="toggleButton md:hidden mt-2">
+                  <button onClick={toggleMenu}>
+                    <IoMdMenu className="text-white text-2xl" />
+                  </button>
+                </div>
+              </nav>
+              {/* Dropdown mobile */}
+              <div className="dropdownMenu md:hidden z-30 bg-black bg-opacity-80 text-white text-center">
+                <li>
+                  <button
+                    className="book-tab"
+                    onClick={() => scrollToSection("hero")}
+                  >
+                    Home
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="book-tab"
+                    onClick={() => scrollToSection("artes")}
+                  >
+                    Artes
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="book-tab"
+                    onClick={() => scrollToSection("download")}
+                  >
+                    Download
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="book-tab"
+                    onClick={() => scrollToSection("sobrenos")}
+                  >
+                    Sobre-nós
+                  </button>
+                </li>
+              </div>
+            </motion.header>
+          )}
+        </AnimatePresence>
+
         <div
           className="absolute top-0 left-0 w-full h-full bg-[rgba(40,40,40,0.5)] z-10 "
           style={{
@@ -228,7 +325,12 @@ export default function Home() {
             zIndex: 1,
           }}
         >
-          <TitleAnimado onEnd={() => { if (typeof window !== 'undefined') window.__navbarReady = true; }} />
+          <TitleAnimado
+            onEnd={() => {
+              setTribalVisible(true);
+              setTimeout(() => setNavbarVisible(true), 400);
+            }}
+          />
         </div>
       </section>
 
@@ -259,7 +361,7 @@ export default function Home() {
               >
                 <h1
                   className="text-xl sm:text-4xl md:text-4xl font-bold mb-2 sm:mb-4 transition-all duration-300"
-                  style={{ fontFamily: 'Rimba Andalas, sans-serif' }}
+                  style={{ fontFamily: "Rimba Andalas, sans-serif" }}
                 >
                   {personagem.nome}
                 </h1>
@@ -273,13 +375,14 @@ export default function Home() {
           <div
             className="w-full md:w-2/5 flex items-center justify-center relative"
             style={{ marginTop: "10px", marginBottom: "10px" }}
-          >            <button
-            onClick={anterior}
-            className="absolute !left-2 md:-left-2 z-10 text-gray-800 hover:text-black hover:scale-110"
           >
+            {" "}
+            <button
+              onClick={anterior}
+              className="absolute !left-2 md:-left-2 z-10 text-gray-800 hover:text-black hover:scale-110"
+            >
               <ChevronLeft size={30} />
             </button>
-
             {/* Container com position: relative para animação funcionar */}
             <div className="w-[200px] h-[200px] sm:w-[280px] sm:h-[280px] md:w-[400px] md:h-[400px] rounded-full flex items-center justify-center overflow-hidden relative bg-gray-300">
               <AnimatePresence initial={false} custom={direction}>
@@ -310,13 +413,12 @@ export default function Home() {
                     alt={personagem.nome}
                     fill
                     className="object-cover"
-                    style={{ borderRadius: "50%", backgroundColor: "#e5e7eb" }} // bg-gray-300
+                    style={{ borderRadius: "50%", backgroundColor: "#e5e7eb" }}
                     priority
                   />
                 </motion.div>
               </AnimatePresence>
             </div>
-
             <button
               onClick={proximo}
               className="absolute !right-2 md:-right-2 z-10 text-gray-800 hover:text-black hover:scale-110"
@@ -328,21 +430,26 @@ export default function Home() {
       </section>
 
       {/*CENARIO NOVO*/}
-      <section className="bg-black bg-cover text-white w-full  sm:px-6  flex flex-col gap-10 items-center" style={{ marginBottom: "20px" }}>
-        <h2 className="titulo text-2xl sm:text-4xl md:text-6xl font-bold mb-10 mt-2 flex items-center justify-center">Cenários</h2>
+      <section
+        className="bg-black bg-cover text-white w-full  sm:px-6  flex flex-col gap-10 items-center"
+        style={{ marginBottom: "20px" }}
+      >
+        <h2 className="titulo text-2xl sm:text-4xl md:text-6xl font-bold mb-10 mt-2 flex items-center justify-center">
+          Cenários
+        </h2>
 
-        {/* Floresta - imagem esquerda, texto direita, anima da direita */}
+        {/* Floresta */}
         <div className="flex flex-col md:flex-row items-center w-full mx-auto md:mx-auto">
           <motion.div
             initial={{ x: 200, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, type: 'spring' }}
+            transition={{ duration: 0.8, type: "spring" }}
             className="w-full md:w-1/2 flex justify-center items-center mx-auto"
           >
             <div
               className="relative group flex justify-center items-center w-full max-w-[600px] h-[340px] md:h-[400px] overflow-hidden group"
-              style={{ minHeight: '220px' }}
+              style={{ minHeight: "220px" }}
             >
               <Image
                 src="/floresta.png"
@@ -350,12 +457,11 @@ export default function Home() {
                 height={500}
                 alt="Cenário de floresta"
                 className="rounded-lg w-full h-full object-cover shadow-2xl transition duration-300 group-hover:opacity-0 group-hover:scale-105 group-hover:brightness-75 group-hover:contrast-125"
-                style={{ position: 'absolute', top: 0, left: 0 }}
+                style={{ position: "absolute", top: 0, left: 0 }}
               />
-              {/* Animação de scale suave na entrada e saída do hover */}
               <motion.video
                 className="rounded-lg w-full h-full object-cover shadow-2xl opacity-0 group-hover:opacity-100 group-hover:scale-105 group-hover:brightness-75 group-hover:contrast-125"
-                style={{ position: 'absolute', top: 0, left: 0 }}
+                style={{ position: "absolute", top: 0, left: 0 }}
                 src="/teste.mp4"
                 autoPlay
                 loop
@@ -365,7 +471,7 @@ export default function Home() {
                 animate={{ scale: 1 }}
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 1.08 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
               />
             </div>
           </motion.div>
@@ -373,28 +479,48 @@ export default function Home() {
             initial={{ x: 200, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, type: 'spring', delay: 0.2 }}
+            transition={{ duration: 0.8, type: "spring", delay: 0.2 }}
             className="w-full md:w-1/2 flex flex-col justify-center items-center md:items-start text-center md:text-left mx-auto"
-           
           >
-            <h3 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 text-amber-300" style={{ transform: `translateX(${translateCenario})`, fontFamily: 'Rimba Andalas, sans-serif' }}>Floresta</h3>
-            <p className="text-base sm:text-lg md:text-xl max-w-xl mb-2" style={{ transform: `translateX(${translateCenario})` }}>Esse é o primeiro cenário do jogo, nele o jogador irá aprender todas as mecânicas dentro do mundo de Naurú, por exemplo, como se movimentar, técnicas de combate e o objetivo do jogo. Caeté irá ficar pouquíssimo tempo na floresta.</p>
-            <p className="text-sm sm:text-base opacity-80" style={{ transform: `translateX(${translateCenario})` }}>Cenário da floresta, onde se passa o início do jogo</p>
+            <h3
+              className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 text-amber-300"
+              style={{
+                transform: `translateX(${translateCenario})`,
+                fontFamily: "Rimba Andalas, sans-serif",
+              }}
+            >
+              Floresta
+            </h3>
+            <p
+              className="text-base sm:text-lg md:text-xl max-w-xl mb-2"
+              style={{ transform: `translateX(${translateCenario})` }}
+            >
+              Esse é o primeiro cenário do jogo, nele o jogador irá aprender
+              todas as mecânicas dentro do mundo de Naurú, por exemplo, como se
+              movimentar, técnicas de combate e o objetivo do jogo. Caeté irá
+              ficar pouquíssimo tempo na floresta.
+            </p>
+            <p
+              className="text-sm sm:text-base opacity-80"
+              style={{ transform: `translateX(${translateCenario})` }}
+            >
+              Cenário da floresta, onde se passa o início do jogo
+            </p>
           </motion.div>
         </div>
 
-        {/* Caverna - imagem direita, texto esquerda, anima da esquerda */}
-  <div className="flex flex-col md:flex-row-reverse items-center gap-10 w-full mx-auto md:mx-auto">
+        {/* Caverna */}
+        <div className="flex flex-col md:flex-row-reverse items-center gap-10 w-full mx-auto md:mx-auto">
           <motion.div
             initial={{ x: -200, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, type: 'spring' }}
+            transition={{ duration: 0.8, type: "spring" }}
             className="w-full md:w-1/2 flex justify-center items-center mx-auto"
           >
             <div
               className="relative group flex justify-center items-center w-full max-w-[600px] h-[340px] md:h-[400px] overflow-hidden group"
-              style={{ minHeight: '220px' }}
+              style={{ minHeight: "220px" }}
             >
               <Image
                 src="/Caverna.png"
@@ -402,11 +528,11 @@ export default function Home() {
                 height={500}
                 alt="Cenário de caverna"
                 className="rounded-lg w-full h-full object-cover shadow-2xl transition duration-300 group-hover:opacity-0 group-hover:scale-105 group-hover:brightness-75 group-hover:contrast-125"
-                style={{ position: 'absolute', top: 0, left: 0 }}
+                style={{ position: "absolute", top: 0, left: 0 }}
               />
               <motion.video
                 className="rounded-lg w-full h-full object-cover shadow-2xl opacity-0 group-hover:opacity-100 group-hover:scale-105 group-hover:brightness-75 group-hover:contrast-125"
-                style={{ position: 'absolute', top: 0, left: 0 }}
+                style={{ position: "absolute", top: 0, left: 0 }}
                 src="/teste.mp4"
                 autoPlay
                 loop
@@ -416,7 +542,7 @@ export default function Home() {
                 animate={{ scale: 1 }}
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 1.08 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
               />
             </div>
           </motion.div>
@@ -424,12 +550,32 @@ export default function Home() {
             initial={{ x: -200, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, type: 'spring', delay: 0.2 }}
+            transition={{ duration: 0.8, type: "spring", delay: 0.2 }}
             className="w-full md:w-1/2 flex flex-col  items-center md:items-end text-center md:text-right mx-auto"
           >
-            <h3 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 text-amber-300" style={{ transform: `translateX(${translateCaverna})`, fontFamily: 'Rimba Andalas, sans-serif' }}>Caverna</h3>
-            <p className="text-base sm:text-lg md:text-xl max-w-xl mb-2" style={{ transform: `translateX(${translateCaverna})` }}>Na caverna, o jogador enfrentará os diversos inimigos dentro do game, utilizando os ensinamentos adquiridos na floresta, é aqui que você passará a maior parte da experiência do jogo.</p>
-            <p className="text-sm sm:text-base opacity-80" style={{ transform: `translateX(${translateCaverna})` }}>Cenário da caverna, onde se passa a maior parte do jogo</p>
+            <h3
+              className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 text-amber-300"
+              style={{
+                transform: `translateX(${translateCaverna})`,
+                fontFamily: "Rimba Andalas, sans-serif",
+              }}
+            >
+              Caverna
+            </h3>
+            <p
+              className="text-base sm:text-lg md:text-xl max-w-xl mb-2"
+              style={{ transform: `translateX(${translateCenario})` }}
+            >
+              Na caverna, o jogador enfrentará os diversos inimigos dentro do
+              game, utilizando os ensinamentos adquiridos na floresta, é aqui
+              que você passará a maior parte da experiência do jogo.
+            </p>
+            <p
+              className="text-sm sm:text-base opacity-80"
+              style={{ transform: `translateX(${translateCaverna})` }}
+            >
+              Cenário da caverna, onde se passa a maior parte do jogo
+            </p>
           </motion.div>
         </div>
       </section>
@@ -454,7 +600,7 @@ export default function Home() {
             <div className="mt-4 sm:mt-6 flex justify-center md:justify-start">
               <button
                 className="actionButton bg-black text-white flex items-center justify-center rounded-md"
-                style={{ width: '460px', height: '40px' }}
+                style={{ width: "460px", height: "40px" }}
               >
                 <FiDownload size={28} />
               </button>
@@ -492,7 +638,11 @@ export default function Home() {
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.7, delay: index * 0.1, type: 'spring' }}
+                transition={{
+                  duration: 0.7,
+                  delay: index * 0.1,
+                  type: "spring",
+                }}
               >
                 <div className="w-32 h-32 sm:w-36 sm:h-36 relative mb-2 group">
                   <Image
@@ -518,47 +668,147 @@ export default function Home() {
         <div className=" mx-auto flex flex-col md:flex-row justify-center items-center px-8 gap-12 md:gap-2 text-center">
           {/* Coluna 1: Descrição */}
           <div className="flex-1 min-w-[220px] mb-10 md:mb-0 flex flex-col items-center text-center">
-            <h2 className="text-4xl font-bold text-amber-400 mb-2" style={{fontFamily: 'Rimba Andalas, sans-serif'}}>Nauru</h2>
+            <h2
+              className="text-4xl font-bold text-amber-400 mb-2"
+              style={{ fontFamily: "Rimba Andalas, sans-serif" }}
+            >
+              Nauru
+            </h2>
             <p className="text-white text-base max-w-xs">
-              Uma jornada única desenvolvida pela <span className="font-bold text-amber-400">AgroPescaStudios</span>, onde natureza e desafio se encontram
+              Uma jornada única desenvolvida pela{" "}
+              <span className="font-bold text-amber-400">AgroPescaStudios</span>
+              , onde natureza e desafio se encontram
             </p>
           </div>
           {/* Coluna 2: Navegação */}
           <div className="flex-1 min-w-[180px] mb-10 md:mb-0 flex flex-col items-center text-center">
-            <h3 className="text-2xl font-semibold mb-3 text-amber-400">Navegação</h3>
+            <h3 className="text-2xl font-semibold mb-3 text-amber-400">
+              Navegação
+            </h3>
             <ul className="text-white space-y-1 text-base">
-              <li><a href="#sobrenos" className="hover:text-amber-400 transition-colors" style={{ fontSize: '18px' }}>Sobre o Jogo</a></li>
-              <li><a href="#" className="hover:text-amber-400 transition-colors" style={{ fontSize: '18px' }}>Notícias</a></li>
-              <li><a href="#" className="hover:text-amber-400 transition-colors" style={{ fontSize: '18px' }}>Comunidade</a></li>
-              <li><a href="#" className="hover:text-amber-400 transition-colors" style={{ fontSize: '18px' }} >Suporte</a></li>
+              <li>
+                <a
+                  href="#sobrenos"
+                  className="hover:text-amber-400 transition-colors"
+                  style={{ fontSize: "18px" }}
+                >
+                  Sobre o Jogo
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-amber-400 transition-colors"
+                  style={{ fontSize: "18px" }}
+                >
+                  Notícias
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-amber-400 transition-colors"
+                  style={{ fontSize: "18px" }}
+                >
+                  Comunidade
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-amber-400 transition-colors"
+                  style={{ fontSize: "18px" }}
+                >
+                  Suporte
+                </a>
+              </li>
             </ul>
           </div>
           {/* Coluna 3: Redes Sociais */}
           <div className="flex-1 min-w-[180px] flex flex-col items-center text-center">
-            <h3 className="text-2xl font-semibold mb-3 text-amber-400">Conecte-se</h3>
+            <h3 className="text-2xl font-semibold mb-3 text-amber-400">
+              Conecte-se
+            </h3>
             <div className="flex flex-row gap-4 mt-2 justify-center">
-              <a href="#" className="bg-amber-400 hover:bg-yellow-400 transition-colors rounded-full w-12 h-12 flex items-center justify-center" aria-label="Twitter">
+              <a
+                href="#"
+                className="bg-amber-400 hover:bg-yellow-400 transition-colors rounded-full w-12 h-12 flex items-center justify-center"
+                aria-label="Twitter"
+              >
                 {/* Twitter */}
-                <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 text-black"><path strokeLinecap="round" strokeLinejoin="round" d="M8.29 20c7.547 0 11.675-6.155 11.675-11.495 0-.175 0-.349-.012-.522A8.18 8.18 0 0022 5.92a8.19 8.19 0 01-2.357.637A4.118 4.118 0 0021.448 4.1a8.224 8.224 0 01-2.605.977A4.107 4.107 0 0015.448 3c-2.266 0-4.104 1.822-4.104 4.07 0 .32.036.634.106.934C7.728 7.87 4.1 6.13 1.671 3.149a4.025 4.025 0 00-.555 2.048c0 1.413.725 2.662 1.825 3.392A4.093 4.093 0 01.8 7.575v.051c0 1.974 1.417 3.627 3.292 4.004a4.1 4.1 0 01-1.853.07c.522 1.614 2.037 2.792 3.833 2.825A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" /></svg>
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6 text-black"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8.29 20c7.547 0 11.675-6.155 11.675-11.495 0-.175 0-.349-.012-.522A8.18 8.18 0 0022 5.92a8.19 8.19 0 01-2.357.637A4.118 4.118 0 0021.448 4.1a8.224 8.224 0 01-2.605.977A4.107 4.107 0 0015.448 3c-2.266 0-4.104 1.822-4.104 4.07 0 .32.036.634.106.934C7.728 7.87 4.1 6.13 1.671 3.149a4.025 4.025 0 00-.555 2.048c0 1.413.725 2.662 1.825 3.392A4.093 4.093 0 01.8 7.575v.051c0 1.974 1.417 3.627 3.292 4.004a4.1 4.1 0 01-1.853.07c.522 1.614 2.037 2.792 3.833 2.825A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
+                  />
+                </svg>
               </a>
-              <a href="#" className="bg-amber-400 hover:bg-yellow-400 transition-colors rounded-full w-12 h-12 flex items-center justify-center" aria-label="Instagram">
+              <a
+                href="#"
+                className="bg-amber-400 hover:bg-yellow-400 transition-colors rounded-full w-12 h-12 flex items-center justify-center"
+                aria-label="Instagram"
+              >
                 {/* Instagram */}
-                <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 text-black"><rect width="18" height="18" x="3" y="3" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6 text-black"
+                >
+                  <rect width="18" height="18" x="3" y="3" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r="1.5" />
+                </svg>
               </a>
-              <a href="#" className="bg-amber-400 hover:bg-yellow-400 transition-colors rounded-full w-12 h-12 flex items-center justify-center" aria-label="YouTube">
+              <a
+                href="#"
+                className="bg-amber-400 hover:bg-yellow-400 transition-colors rounded-full w-12 h-12 flex items-center justify-center"
+                aria-label="YouTube"
+              >
                 {/* YouTube */}
-                <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 text-black"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M10 9.5v5l5-2.5-5-2.5z"/></svg>
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6 text-black"
+                >
+                  <rect x="2" y="6" width="20" height="12" rx="4" />
+                  <path d="M10 9.5v5l5-2.5-5-2.5z" />
+                </svg>
               </a>
-              <a href="#" className="bg-amber-400 hover:bg-yellow-400 transition-colors rounded-full w-12 h-12 flex items-center justify-center" aria-label="Discord">
+              <a
+                href="#"
+                className="bg-amber-400 hover:bg-yellow-400 transition-colors rounded-full w-12 h-12 flex items-center justify-center"
+                aria-label="Discord"
+              >
                 {/* Discord */}
-                <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 text-black"><path d="M20.317 4.369A19.791 19.791 0 0016.885 3.2a.077.077 0 00-.082.038c-.357.63-.755 1.453-1.037 2.104a18.524 18.524 0 00-5.532 0c-.282-.651-.68-1.473-1.037-2.104a.077.077 0 00-.082-.038c-3.432 1.07-6.13 3.3-6.13 11.1 0 2.2.788 4.01 2.09 5.37a.06.06 0 00.01.01c2.13 1.56 5.13 1.6 6.84 1.6s4.71-.04 6.84-1.6a.06.06 0 00.01-.01c1.302-1.36 2.09-3.17 2.09-5.37 0-7.8-2.698-10.03-6.13-11.1zM8.02 15.11c-.789 0-1.43-.72-1.43-1.6 0-.88.64-1.6 1.43-1.6.8 0 1.44.72 1.44 1.6 0 .88-.64 1.6-1.44 1.6zm7.96 0c-.79 0-1.43-.72-1.43-1.6 0-.88.64-1.6 1.43-1.6.8 0 1.44.72 1.44 1.6 0 .88-.64 1.6-1.44 1.6z"/></svg>
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6 text-black"
+                >
+                  <path d="M20.317 4.369A19.791 19.791 0 0016.885 3.2a.077.077 0 00-.082.038c-.357.63-.755 1.453-1.037 2.104a18.524 18.524 0 00-5.532 0c-.282-.651-.68-1.473-1.037-2.104a.077.077 0 00-.082-.038c-3.432 1.07-6.13 3.3-6.13 11.1 0 2.2.788 4.01 2.09 5.37a.06.06 0 00.01.01c2.13 1.56 5.13 1.6 6.84 1.6s4.71-.04 6.84-1.6a.06.06 0 00.01-.01c1.302-1.36 2.09-3.17 2.09-5.37 0-7.8-2.698-10.03-6.13-11.1zM8.02 15.11c-.789 0-1.43-.72-1.43-1.6 0-.88.64-1.6 1.43-1.6.8 0 1.44.72 1.44 1.6 0 .88-.64 1.6-1.44 1.6zm7.96 0c-.79 0-1.43-.72-1.43-1.6 0-.88.64-1.6 1.43-1.6.8 0 1.44.72 1.44 1.6 0 .88-.64 1.6-1.44 1.6z" />
+                </svg>
               </a>
             </div>
           </div>
         </div>
         <hr className="my-8 border-[#333]" />
         <div className="text-center text-white text-sm">
-          © 2025 <span className="text-amber-400 font-bold">AgroPescaStudios</span>. Todos os direitos reservados.
+          © 2025{" "}
+          <span className="text-amber-400 font-bold">AgroPescaStudios</span>.
+          Todos os direitos reservados.
         </div>
       </footer>
     </>
