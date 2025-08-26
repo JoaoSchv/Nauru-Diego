@@ -17,7 +17,7 @@ export default function TitleAnimado({ onEnd }) {
       setIsYellow(true);
       await new Promise((resolve) => setTimeout(resolve, 700));
       await titleMoveControls.start({
-        y: -70,
+        y: -35,
         transition: { duration: 0.8, ease: "easeInOut" },
       });
       setShowSubtitle(true);
@@ -72,12 +72,12 @@ export default function TitleAnimado({ onEnd }) {
         style={{
           width: "100%",
           position: "relative",
-          top: "-110px",
-          zIndex: 20, 
+          top: "-90px",
+          zIndex: 20,
         }}
       >
         <p
-          className="bg-black/70 text-amber-100 px-6 py-4 rounded-2xl shadow-lg"
+          className="bg-black/30 text-amber-100 px-6 py-4 rounded-2xl shadow-lg"
           style={{
             fontFamily: "Arial, sans-serif",
             maxWidth: "600px",

@@ -13,14 +13,14 @@ import "./navbarBookTab.css";
 
 export default function Home() {
   const [translateCenario, setTranslateCenario] = useState("-40px");
-  const [translateCaverna, setTranslateCaverna] = useState("40px");
+  const [translateCaverna, setTranslateCaverna] = useState("60px");
   const [tribalVisible, setTribalVisible] = useState(false);
 
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth >= 1024) {
         setTranslateCenario("-50px");
-        setTranslateCaverna("60px");
+        setTranslateCaverna("80px");
       } else if (window.innerWidth >= 768) {
         setTranslateCenario("-40px");
         setTranslateCaverna("80px");
@@ -564,7 +564,7 @@ export default function Home() {
             </h3>
             <p
               className="text-base sm:text-lg md:text-xl max-w-xl mb-2"
-              style={{ transform: `translateX(${translateCenario})` }}
+              style={{ transform: `translateX(${translateCaverna})` }}
             >
               Na caverna, o jogador enfrentará os diversos inimigos dentro do
               game, utilizando os ensinamentos adquiridos na floresta, é aqui
@@ -622,7 +622,7 @@ export default function Home() {
       <section
         id="sobrenos"
         className="bg-black text-white w-full !min-h-[50vh] flex items-center justify-center px-4 sm:px-6 py-6 sm:py-10"
-      >
+        style={{paddingBottom: "30px"}}>
         <div className="max-w-7xl mx-auto px-6 text-center !mb-4">
           <h2 className="text-4xl sm:text-6xl font-bold text-amber-400 !mb-2 !mt-4">
             Nossa Equipe
@@ -630,7 +630,8 @@ export default function Home() {
           <p className="text-white text-sm sm:text-base !mt-2 !mb-5">
             Conheça os integrantes que estão por trás do nosso projeto.
           </p>
-          <div className="flex flex-wrap justify-center gap-8 mt-8">
+          <div className="flex flex-wrap justify-center gap-8 mt-8"
+               style={{paddingTop: "20px"}}>
             {Equipe.map((membro, index) => (
               <motion.div
                 key={index}
@@ -664,8 +665,10 @@ export default function Home() {
 
       <ScrollToTopButton />
 
-      <footer className="w-full bg-black text-white pt-12 pb-4 border-t border-[#333] mt-8">
-        <div className=" mx-auto flex flex-col md:flex-row justify-center items-center px-8 gap-12 md:gap-2 text-center">
+      <footer className="w-full bg-black text-white pt-12 pb-4 border-t border-[#333] mt-8"
+              style={{paddingTop: "15px"}}>
+        <div className=" mx-auto flex flex-col md:flex-row justify-center items-center px-8 gap-12 md:gap-2 text-center"
+             style={{paddingBottom: "10px"}}>
           {/* Coluna 1: Descrição */}
           <div className="flex-1 min-w-[220px] mb-10 md:mb-0 flex flex-col items-center text-center">
             <h2
@@ -726,7 +729,8 @@ export default function Home() {
           </div>
           {/* Coluna 3: Redes Sociais */}
           <div className="flex-1 min-w-[180px] flex flex-col items-center text-center">
-            <h3 className="text-2xl font-semibold mb-3 text-amber-400">
+            <h3 className="text-2xl font-semibold mb-3 text-amber-400"
+                style={{padding: "10px"}}>
               Conecte-se
             </h3>
             <div className="flex flex-row gap-4 mt-2 justify-center">
