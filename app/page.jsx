@@ -177,7 +177,8 @@ export default function Home() {
           {tribalVisible && (
             <>
               <motion.div
-                className="tribal-stripe left"
+                className="tribal-stripe"
+                style={{ top: "auto", bottom: 0, transform: "", marginRight: "91vw" }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -185,12 +186,13 @@ export default function Home() {
               >
                 <img
                   src="/listraNauru_amarela.png"
-                  alt="Tribal Left"
+                  alt="Tribal"
                   draggable={false}
                 />
               </motion.div>
               <motion.div
-                className="tribal-stripe right"
+                className="tribal-stripe"
+                style={{ top: "auto", bottom: 0, transform: "rotate(180deg)", marginRight: "-91vw" }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -198,7 +200,7 @@ export default function Home() {
               >
                 <img
                   src="/listraNauru_amarela.png"
-                  alt="Tribal Right"
+                  alt="Tribal"
                   draggable={false}
                 />
               </motion.div>
@@ -434,7 +436,8 @@ export default function Home() {
         className="bg-black bg-cover text-white w-full  sm:px-6  flex flex-col gap-10 items-center"
         style={{ marginBottom: "20px" }}
       >
-        <h2 className="titulo text-2xl sm:text-4xl md:text-6xl font-bold mb-10 mt-2 flex items-center justify-center">
+        <h2 className="titulo text-2xl sm:text-4xl md:text-6xl font-bold mb-10 mt-2 flex items-center justify-center"
+            style={{marginTop: "30px"}}>
           Cenários
         </h2>
 
@@ -486,7 +489,7 @@ export default function Home() {
               className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 text-amber-300"
               style={{
                 transform: `translateX(${translateCenario})`,
-                fontFamily: "Rimba Andalas, sans-serif",
+                fontFamily: "Maragsa, sans-serif",
               }}
             >
               Floresta
@@ -557,7 +560,7 @@ export default function Home() {
               className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 text-amber-300"
               style={{
                 transform: `translateX(${translateCaverna})`,
-                fontFamily: "Rimba Andalas, sans-serif",
+                fontFamily: "Maragsa\, sans-serif",
               }}
             >
               Caverna
@@ -593,16 +596,17 @@ export default function Home() {
             animate={isInView ? { x: 20, opacity: 1 } : {}}
             transition={{ duration: 1.2, type: "spring" }}
           >
-            <h2 className="titulo text-3xl sm:text-5xl md:text-6xl lg:text-8xl !ml-2 font-bold leading-tight">
-              Baixe Agora
-            </h2>
 
-            <div className="mt-4 sm:mt-6 flex justify-center md:justify-start">
+            <div className="mt-2 sm:mt-6 flex justify-center md:justify-start items-center align-items-center"
+            style={{ width: "1400px" }}>
+              <button className="titulo text-3xl sm:text-5xl md:text-6xl lg:text-8xl !ml-2 font-bold leading-tight">
+                Baixe Agora
+              </button> 
               <button
-                className="actionButton bg-black text-white flex items-center justify-center rounded-md"
-                style={{ width: "460px", height: "40px" }}
+                className="actionButton  flex items-center justify-center rounded-md bg-gray-200"
+                style={{ width: "80px", height: "40px", color: "#ffd700" }}
               >
-                <FiDownload size={28} />
+                <FiDownload size={80} style={{ color: "#ffd700" }} />
               </button>
             </div>
           </motion.div>

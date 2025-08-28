@@ -116,8 +116,6 @@ header {
 }
 
 .actionButton {
-  background-color: orange;
-  color: #ffffff;
   padding: 0.5rem 1rem;
   border: none;
   outline: none;
@@ -323,7 +321,7 @@ main {
 .tribal-stripe {
   position: absolute;
   top: 0;
-  width: 260px; 
+  width: 200px; 
   height: 100%;
   z-index: 15;
   pointer-events: none;
