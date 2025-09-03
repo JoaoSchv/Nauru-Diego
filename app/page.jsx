@@ -41,19 +41,19 @@ export default function Home() {
       nome: "Curupira",
       descricao:
         "Curupira é o mestre de Caeté e o anterior guardião da floresta. Ele viu no jovem um grande potencial e, por isso, o escolheu como seu discípulo.",
-      imagem: "/curupira.png",
+      imagem: "/curupira.PNG",
     },
     {
       nome: "Iúna",
       descricao:
         "É uma jovem indígena de uma tribo rival à de Caeté. A jovem invade as terras do povo de Caeté e descobre ruínas de um povo antigo. Dentro dessa ruína, aprende a invocar e controlar esses espíritos malignos. Ela é a responsável por comandar o Mapinguari.",
-      imagem: "/iara.png",
+      imagem: "/iara.PNG",
     },
     {
       nome: "Saci",
       descricao:
         "É o segundo inimigo do jogo, um espírito maligno com poderes que controlam o vento e que também se encontra em grupos de 2 ou mais Sacis. Gostam muito de fazer travessuras e, por isso, são conhecidos por atormentar aqueles que vivem na floresta.",
-      imagem: "/saci.png",
+      imagem: "/saci.PNG",
     },
     {
       nome: "Caeté",
@@ -65,24 +65,24 @@ export default function Home() {
       nome: "Unhudo",
       descricao:
         "Espírito grande e forte, muito assustador, com um corpo esquelético e chapéu de palha, ataca quem ele vê pela frente.",
-      imagem: "/unhudo.png",
+      imagem: "/unhudo.PNG",
     },
     {
       nome: "Corpo-Seco",
       descricao:
         "É o primeiro inimigo do jogo. Ele se assemelha muito a um morto-vivo e normalmente é encontrado em grupo, o que pode causar problemas para o nosso jovem Caeté.",
-      imagem: "/corposeco.png",
+      imagem: "/corposeco.PNG", 
     },
     {
       nome: "waké",
-      descricao: "é um espirito azul",
-      imagem: "/wake.png",
+      descricao: "Waké é um espírito antigo que acompanhará o protagonista durante sua jornada. Waké possui diversos poderes e cabe a Caeté aprender a utilizá-los.",
+      imagem: "/WAKE.jpeg",
     },
     {
       nome: "Mapinguari",
       descricao:
         "É o grande chefão do jogo, o inimigo mais poderoso e mais complicado que vamos enfrentar nesta jornada. Um gigante coberto por pelos que habita nas florestas, conhecido por suas características físicas, como seu único olho e uma boca que cobre todo o seu tronco. Assim, ele coloca medo em todos que vivem na floresta.",
-      imagem: "/mapinguari.png",
+      imagem: "/mapinguari.PNG",
     },
   ];
   const personagem = personagens[index];
