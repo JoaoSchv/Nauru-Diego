@@ -355,3 +355,18 @@ main {
     top: -50%;
   }
 }
+
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content img {
+  display: block;
+  object-fit: contain;
+}
+
+/* opção: cursor de zoom nas imagens clicáveis */
+.group .cursor-zoom-in {
+  cursor: zoom-in;
+}

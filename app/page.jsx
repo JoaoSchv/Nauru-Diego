@@ -36,6 +36,30 @@ export default function Home() {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [navbarVisible, setNavbarVisible] = useState(false);
+
+  // --- modal state e handlers (adicionado) ---
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalImage, setModalImage] = useState(null);
+
+  function openModal(src, alt = "") {
+    setModalImage({ src, alt });
+    setModalOpen(true);
+    document.body.style.overflow = "hidden";
+  }
+  function closeModal() {
+    setModalOpen(false);
+    document.body.style.overflow = "";
+    // limpar imagem depois da animação de saída (opcional)
+    setTimeout(() => setModalImage(null), 300);
+  }
+
+  useEffect(() => {
+    function onKey(e) {
+      if (e.key === "Escape") closeModal();
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
   const personagens = [
     {
       nome: "Curupira",
@@ -450,13 +474,16 @@ export default function Home() {
             <div
               className="relative group flex justify-center items-center w-full max-w-[600px] h-[340px] md:h-[400px] overflow-hidden group"
               style={{ minHeight: "220px" }}
+              onClick={() => openModal("/floresta.png", "Floresta")}
+              role="button"
+              tabIndex={0}
             >
               <Image
                 src="/floresta.png"
                 width={700}
                 height={500}
                 alt="Cenário de floresta"
-                className="rounded-lg w-full h-full object-cover shadow-2xl transition duration-300 group-hover:opacity-0 group-hover:scale-105 group-hover:brightness-75 group-hover:contrast-125"
+                className="rounded-lg w-full h-full object-cover shadow-2xl transition duration-300 group-hover:opacity-0 group-hover:scale-105 group-hover:brightness-75 group-hover:contrast-125 cursor-zoom-in"
                 style={{ position: "absolute", top: 0, left: 0 }}
               />
               <motion.video
@@ -519,8 +546,12 @@ export default function Home() {
             className="w-full md:w-1/2 flex justify-center items-center mx-auto"
           >
             <div
-              className="relative group flex justify-center items-center w-full max-w-[600px] h-[340px] md:h-[400px] overflow-hidden group"
+              className="relative group flex justify-center items-center w-full max-w-[600px] h-[340px] md:h-[400px] overflow-hidden group cursor-zoom-in"
               style={{ minHeight: "220px" }}
+              onClick={() => openModal("/Caverna.png", "Caverna")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') openModal("/Caverna.png", "Caverna"); }}
             >
               <Image
                 src="/Caverna.png"
@@ -811,6 +842,87 @@ export default function Home() {
           Todos os direitos reservados.
         </div>
       </footer>
+
+      {/* Modal (adicionado) */}
+      {/* {modalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+          <div className="relative max-w-3xl w-full p-4">
+            {/* Botão de fechar (adicionado) */}
+            {/* <button
+              onClick={closeModal}
+              className="absolute top-2 right-2 text-white"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-lg overflow-hidden shadow-lg"
+            >
+              <Image
+                src={modalImage.src}
+                alt={modalImage.alt}
+                width={800}
+                height={600}
+                className="w-full h-auto"
+                priority
+              />
+            </motion.div>
+          </div>
+        </div>
+      )} */}
+
+      {/* Modal de visualização de imagem */}
+      <AnimatePresence>
+        {modalOpen && modalImage && (
+          <motion.div
+            className="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeModal}
+          >
+            <motion.div
+              className="modal-content relative"
+              initial={{ scale: 0.98 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.98 }}
+              transition={{ type: "spring", damping: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{ width: "100%", maxWidth: "98vw", maxHeight: "96vh" }}
+            >
+              <img
+                src={modalImage.src}
+                alt={modalImage.alt}
+                className="w-full h-auto max-w-[98vw] max-h-[96vh] rounded-lg shadow-2xl object-contain"
+                draggable={false}
+              />
+              <button
+                onClick={closeModal}
+                className="absolute top-3 right-3 bg-black/60 text-white rounded-full p-2"
+                aria-label="Fechar"
+              >
+                ✕
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
